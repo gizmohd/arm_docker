@@ -53,24 +53,19 @@ RUN echo '/dev/sr0  /mnt/dev/sr0  udf,iso9660  user,noauto,exec,utf8  0  0' >> /
 RUN mkdir /opt/arm
 RUN chown arm:cdrom /opt/arm
 RUN chmod 775 /opt/arm
-#RUN git clone https://github.com/gizmohd/automatic-ripping-machine.git /opt/arm
-RUN git clone https://github.com/automatic-ripping-machine/automatic-ripping-machine.git /opt/arm
+RUN git clone https://github.com/gizmohd/automatic-ripping-machine.git /opt/arm
+#RUN git clone https://github.com/automatic-ripping-machine/automatic-ripping-machine.git /opt/arm
 
 WORKDIR /opt/arm
 RUN git checkout v2_master
-
-#Edit Files for local use
-ADD 51-automedia.rules /opt/arm/setup
-ADD .abcde.conf /opt/arm/setup
 
 RUN pip3 install -r requirements.txt 
 RUN ln -s /opt/arm/setup/51-automedia.rules /lib/udev/rules.d/
 RUN ln -s /opt/arm/setup/.abcde.conf /home/arm/
 
-
-#USER arm
+COPY arm.yaml .
 
 #Clean up existing packages to save space
-
-RUN df -H
 RUN apt-get clean
+
+USER arm
