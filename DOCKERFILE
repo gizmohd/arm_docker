@@ -68,4 +68,5 @@ COPY arm.yaml .
 #Clean up existing packages to save space
 RUN apt-get clean
 
+#change user to the arm user
 USER arm
