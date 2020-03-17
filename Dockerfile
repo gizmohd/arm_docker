@@ -2,10 +2,9 @@ FROM ubuntu:latest
 
 USER 0
 
-RUN apt-get update && apt-get install -y apt-transport-https 
-RUN apt-get install git wget -y
-
-RUN apt-get install software-properties-common -y
+RUN apt-get update && apt-get install -y apt-transport-https  apt-utils
+RUN apt-get install git wget software-properties-common -y
+ 
 
 #setup repos
 
@@ -23,7 +22,7 @@ RUN apt-get update -y
 RUN export DEBIAN_FRONTEND=noninteractive
 RUN apt-get install makemkv-bin makemkv-oss -y
 RUN apt-get install handbrake-cli libavcodec-extra -y
-RUN apt-get install apt-utils -y
+
 RUN echo "postfix postfix/main_mailer_type string 'Local only'" | debconf-set-selections
 RUN echo "postfix postfix/mailname string example.org" | debconf-set-selections
 RUN apt-get install --assume-yes postfix -yq
